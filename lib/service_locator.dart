@@ -1,8 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:material_3_testing/data/model/spending.dart';
 import 'package:material_3_testing/data/source/local/key_local_source.dart';
 import 'package:material_3_testing/data/source/local/preference_local_source.dart';
+import 'package:material_3_testing/data/source/local/spending_local_source.dart';
 import 'package:material_3_testing/domain/use_case/keys/create_encryption_key.dart';
 import 'package:material_3_testing/domain/use_case/keys/get_encryption_key.dart';
 import 'package:material_3_testing/domain/use_case/preference/get_dark_mode_state.dart';
@@ -28,6 +30,10 @@ void initLocatorAppModule() {
   locator.registerSingletonAsync<PreferenceLocalSourceBase>(() async {
     final box = await Hive.openBox('preference');
     return PreferenceLocalSource(box);
+  });
+  locator.registerSingletonAsync<SpendingLocalSourceBase>(() async {
+    final box = await Hive.openLazyBox<Spending>('spending');
+    return SpendingLocalSource(box);
   });
 
   // Encrypt use case

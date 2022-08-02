@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       )..add(PreferenceInit()),
       child: BlocBuilder<PreferenceBloc, PreferenceState>(
         builder: (context, state) => MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Spending Tracker',
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,

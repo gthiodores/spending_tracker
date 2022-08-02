@@ -1,0 +1,1 @@
+const int kMaxRecentItems = 5;
