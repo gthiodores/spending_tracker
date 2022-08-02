@@ -1,16 +1,12 @@
-# material_3_testing
+# Spending Tracker
 
-A new Flutter project.
+An app to monitor user spending on a monthly and yearly basis.
 
-## Getting Started
+## Main Feature
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This app has a few feature revolving around user's spending:
+- Allows the user to record their spending.
+- Allows the user to categorize their spending.
+- Allows the user to compare their spending amount by category.
+- Allows the user to compare their spending this month to the previous month.
+- Allows the user to compare their spending this year to the previous year.
