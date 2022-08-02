@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:material_3_testing/data/model/category.dart';
+import 'package:material_3_testing/data/model/spending.dart';
 import 'package:material_3_testing/domain/util/currency_enum.dart';
 import 'package:material_3_testing/presentation/bloc/preference/preference_bloc.dart';
 import 'package:material_3_testing/presentation/route/onboarding/onboarding_route.dart';
@@ -14,6 +16,8 @@ import 'package:material_3_testing/service_locator.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(CurrencyEnumAdapter());
+  Hive.registerAdapter(CategoryAdapter());
+  Hive.registerAdapter(SpendingAdapter());
   initLocatorAppModule();
   await locator.allReady();
   runApp(const MyApp());
