@@ -19,7 +19,8 @@ class SpendingCategoryCubit extends Cubit<SpendingCategoryState> {
   ) : super(SpendingCategoryState.initial());
 
   void fetchCategories() {
-    final categories = _getCategories.execute();
+    final categories = _getCategories.execute()
+      ..sort((a, b) => a.created.isAfter(b.created) ? 1 : 0);
     emit(state.copyWith(categories: categories));
   }
 

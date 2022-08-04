@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_3_testing/presentation/bloc/spending_category/spending_category_cubit.dart';
+import 'package:material_3_testing/presentation/widget/spending_category/spending_category_item.dart';
 import 'package:material_3_testing/routes.dart';
 import 'package:material_3_testing/service_locator.dart';
 
@@ -25,6 +26,7 @@ class SpendingCategoryRoute extends StatelessWidget {
                     onPressed: () => context
                         .read<SpendingCategoryCubit>()
                         .undoDeleteCategory(),
+                    textColor: Theme.of(context).colorScheme.onPrimary,
                   );
 
             ScaffoldMessenger.of(context).showSnackBar(
@@ -32,47 +34,52 @@ class SpendingCategoryRoute extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) {
-          return Scaffold(
-            body: CustomScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              slivers: [
-                const SliverAppBar(
-                  title: Text('Categories'),
-                  floating: true,
-                  snap: true,
-                ),
-                if (state.categories.isEmpty) ...[
-                  const SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(child: Text('No categories found')),
-                  )
-                ] else ...[
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index == state.categories.length) {
-                          return const SizedBox(height: 56);
-                        }
-
-                        final item = state.categories[index];
-                        return ListTile(title: Text(item.name));
-                      },
-                      childCount: state.categories.length + 1,
-                    ),
-                  ),
-                ]
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, routeAddCategory).then(
-                (value) => context.read<SpendingCategoryCubit>().addedSuccess(),
+        builder: (context, state) => Scaffold(
+          body: CustomScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            slivers: [
+              const SliverAppBar(
+                title: Text('Categories'),
+                floating: true,
+                snap: true,
               ),
-              child: const Icon(Icons.add),
+              if (state.categories.isEmpty) ...[
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(child: Text('No categories found')),
+                )
+              ] else ...[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      if (index == state.categories.length) {
+                        return const SizedBox(height: 56);
+                      }
+
+                      final item = state.categories[index];
+                      return SpendingCategoryItem(
+                        item: item,
+                        itemKey: Key('${item.name}$index'),
+                        onDismissed: () => context
+                            .read<SpendingCategoryCubit>()
+                            .deleteCategory(item),
+                        onTap: () => print('tapped $item'),
+                      );
+                    },
+                    childCount: state.categories.length + 1,
+                  ),
+                ),
+              ]
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () =>
+                Navigator.pushNamed(context, routeAddCategory).then(
+              (value) => context.read<SpendingCategoryCubit>().addedSuccess(),
             ),
-          );
-        },
+            child: const Icon(Icons.add),
+          ),
+        ),
       ),
     );
   }
