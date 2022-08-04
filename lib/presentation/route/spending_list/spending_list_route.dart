@@ -12,6 +12,11 @@ class SpendingListRoute extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
+            onPressed: () => Navigator.pushNamed(context, routeCategory),
+            icon: const Icon(Icons.category_rounded),
+            tooltip: 'Categories',
+          ),
+          IconButton(
             onPressed: () => Navigator.pushNamed(context, routeSetting),
             icon: const Icon(Icons.settings),
             tooltip: 'Settings',

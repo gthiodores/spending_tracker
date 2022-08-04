@@ -7,6 +7,8 @@ import 'package:material_3_testing/domain/util/currency_enum.dart';
 import 'package:material_3_testing/presentation/bloc/preference/preference_bloc.dart';
 import 'package:material_3_testing/presentation/route/onboarding/onboarding_route.dart';
 import 'package:material_3_testing/presentation/route/setting/setting_route.dart';
+import 'package:material_3_testing/presentation/route/spending_category/add_spending_category_dialog.dart';
+import 'package:material_3_testing/presentation/route/spending_category/spending_category_route.dart';
 import 'package:material_3_testing/presentation/route/spending_list/spending_list_route.dart';
 import 'package:material_3_testing/presentation/theme/colors.dart';
 import 'package:material_3_testing/presentation/widget/error/error_page.dart';
@@ -61,6 +63,15 @@ class MyApp extends StatelessWidget {
               case routeList:
                 return MaterialPageRoute(
                   builder: (_) => const SpendingListRoute(),
+                );
+              case routeCategory:
+                return MaterialPageRoute(
+                  builder: (_) => const SpendingCategoryRoute(),
+                );
+              case routeAddCategory:
+                return MaterialPageRoute(
+                  builder: (_) => const AddSpendingCategoryDialog(),
+                  fullscreenDialog: true,
                 );
               case routeSetting:
                 return MaterialPageRoute(builder: (_) => const SettingRoute());
