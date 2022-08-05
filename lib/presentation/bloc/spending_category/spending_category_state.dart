@@ -1,7 +1,7 @@
 part of 'spending_category_cubit.dart';
 
 class SpendingCategoryState extends Equatable {
-  final List<Category> categories;
+  final List<UiCategory> categories;
   final Category? previouslyDeleted;
   final String? message;
 
@@ -17,7 +17,7 @@ class SpendingCategoryState extends Equatable {
         message = null;
 
   SpendingCategoryState copyWith({
-    List<Category>? categories,
+    List<UiCategory>? categories,
     Category? previouslyDeleted,
     String? message,
   }) =>

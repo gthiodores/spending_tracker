@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_3_testing/data/model/category.dart';
 import 'package:material_3_testing/data/model/spending.dart';
+import 'package:material_3_testing/domain/model/ui_category.dart';
 import 'package:material_3_testing/domain/util/currency_enum.dart';
 import 'package:material_3_testing/presentation/bloc/preference/preference_bloc.dart';
 import 'package:material_3_testing/presentation/route/onboarding/onboarding_route.dart';
 import 'package:material_3_testing/presentation/route/setting/setting_route.dart';
 import 'package:material_3_testing/presentation/route/spending_category/add_spending_category_dialog.dart';
+import 'package:material_3_testing/presentation/route/spending_category/edit_spending_category_dialog.dart';
 import 'package:material_3_testing/presentation/route/spending_category/spending_category_route.dart';
 import 'package:material_3_testing/presentation/route/spending_list/spending_list_route.dart';
 import 'package:material_3_testing/presentation/theme/colors.dart';
@@ -71,6 +73,13 @@ class MyApp extends StatelessWidget {
               case routeAddCategory:
                 return MaterialPageRoute(
                   builder: (_) => const AddSpendingCategoryDialog(),
+                  fullscreenDialog: true,
+                );
+              case routeEditCategory:
+                return MaterialPageRoute(
+                  builder: (_) => EditSpendingCategoryDialog(
+                    category: setting.arguments as UiCategory,
+                  ),
                   fullscreenDialog: true,
                 );
               case routeSetting:

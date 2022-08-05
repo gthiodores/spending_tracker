@@ -15,7 +15,7 @@ class SpendingCategoryRoute extends StatelessWidget {
         locator.get(),
         locator.get(),
         locator.get(),
-      )..fetchCategories(),
+      )..add(SpendingCategoryInit()),
       child: BlocConsumer<SpendingCategoryCubit, SpendingCategoryState>(
         listener: (context, state) {
           if (state.message != null) {
@@ -25,7 +25,7 @@ class SpendingCategoryRoute extends StatelessWidget {
                     label: 'Undo',
                     onPressed: () => context
                         .read<SpendingCategoryCubit>()
-                        .undoDeleteCategory(),
+                        .add(SpendingCategoryUndoDelete()),
                     textColor: Theme.of(context).colorScheme.onPrimary,
                   );
 
@@ -62,8 +62,12 @@ class SpendingCategoryRoute extends StatelessWidget {
                         itemKey: Key('${item.name}$index'),
                         onDismissed: () => context
                             .read<SpendingCategoryCubit>()
-                            .deleteCategory(item),
-                        onTap: () => print('tapped $item'),
+                            .add(SpendingCategoryDelete(item.key)),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          routeEditCategory,
+                          arguments: item,
+                        ),
                       );
                     },
                     childCount: state.categories.length + 1,
@@ -73,10 +77,7 @@ class SpendingCategoryRoute extends StatelessWidget {
             ],
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () =>
-                Navigator.pushNamed(context, routeAddCategory).then(
-              (value) => context.read<SpendingCategoryCubit>().addedSuccess(),
-            ),
+            onPressed: () => Navigator.pushNamed(context, routeAddCategory),
             child: const Icon(Icons.add),
           ),
         ),

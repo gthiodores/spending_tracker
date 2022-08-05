@@ -20,41 +20,39 @@ class AddSpendingCategoryDialog extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Add Category'),
-              actions: [
-                TextButton(
-                  onPressed: () =>
-                      context.read<AddSpendingCategoryCubit>().saveCategory(),
-                  child: const Text('SAVE'),
-                ),
-              ],
-            ),
-            body: CustomScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              slivers: [
-                SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                  sliver: SliverToBoxAdapter(
-                    child: TextFormField(
-                      onChanged: (content) => context
-                          .read<AddSpendingCategoryCubit>()
-                          .updateName(content),
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        label: Text('Category Name'),
-                        helperText: '* required *',
-                      ),
+        builder: (context, state) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Add Category'),
+            actions: [
+              TextButton(
+                onPressed: () =>
+                    context.read<AddSpendingCategoryCubit>().saveCategory(),
+                child: const Text('SAVE'),
+              ),
+            ],
+          ),
+          body: CustomScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            slivers: [
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                sliver: SliverToBoxAdapter(
+                  child: TextFormField(
+                    onChanged: (content) => context
+                        .read<AddSpendingCategoryCubit>()
+                        .updateName(content),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      label: Text('Category Name'),
+                      helperText: '* required *',
                     ),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

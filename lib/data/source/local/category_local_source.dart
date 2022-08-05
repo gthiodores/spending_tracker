@@ -1,14 +1,15 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_3_testing/data/model/category.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class CategoryLocalSourceBase {
-  List<Category> getCategories();
+  Stream<List<Category>> getCategories();
 
   void writeCategory(Category category);
 
-  void updateCategory(Category category);
+  void updateCategory(dynamic key, String name);
 
-  void deleteCategory(Category category);
+  void deleteCategory(dynamic key);
 }
 
 class CategoryLocalSource extends CategoryLocalSourceBase {
@@ -17,13 +18,23 @@ class CategoryLocalSource extends CategoryLocalSourceBase {
   CategoryLocalSource(this._box);
 
   @override
-  void deleteCategory(Category category) => category.delete();
+  void deleteCategory(dynamic key) {
+    final category = _box.get(key);
+    category?.delete();
+  }
 
   @override
-  List<Category> getCategories() => _box.values.toList();
+  Stream<List<Category>> getCategories() => _box
+      .watch()
+      .map((value) => _box.values.toList())
+      .startWith(_box.values.toList());
 
   @override
-  void updateCategory(Category category) => category.save();
+  void updateCategory(dynamic key, String name) {
+    final category = _box.get(key);
+    category?.name = name;
+    category?.save();
+  }
 
   @override
   void writeCategory(Category category) => _box.add(category);

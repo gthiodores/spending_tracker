@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:material_3_testing/data/model/category.dart';
+import 'package:material_3_testing/domain/model/ui_category.dart';
 
 class SpendingCategoryItem extends StatelessWidget {
-  final Category item;
+  final UiCategory item;
   final Key itemKey;
   final VoidCallback onDismissed;
   final VoidCallback? onTap;
