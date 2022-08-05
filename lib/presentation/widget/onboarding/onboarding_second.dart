@@ -35,8 +35,8 @@ class OnboardingSecond extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: const Text('Display currency'),
-                subtitle: const Text('The currency used for your spending'),
+                title: const Text('Preferred currency'),
+                subtitle: const Text('The default currency to use'),
                 trailing: DropdownButton<CurrencyEnum>(
                   items: CurrencyEnum.values
                       .map<DropdownMenuItem<CurrencyEnum>>(
