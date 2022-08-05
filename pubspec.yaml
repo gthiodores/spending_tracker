@@ -42,6 +42,9 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   equatable: ^2.0.3
   rxdart: ^0.27.5
+  username_gen: ^1.0.4
+  uuid: ^3.0.6
+  bloc_concurrency: ^0.2.0
 
 dev_dependencies:
   flutter_test:
