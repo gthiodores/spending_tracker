@@ -21,13 +21,14 @@ class SpendingAdapter extends TypeAdapter<Spending> {
       currencySymbol: fields[1] as String,
       category: fields[2] as Category?,
       created: fields[3] as DateTime,
+      note: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Spending obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.amount)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class SpendingAdapter extends TypeAdapter<Spending> {
       ..writeByte(2)
       ..write(obj.category)
       ..writeByte(3)
-      ..write(obj.created);
+      ..write(obj.created)
+      ..writeByte(4)
+      ..write(obj.note);
   }
 
   @override

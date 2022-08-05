@@ -17,10 +17,14 @@ class Spending extends HiveObject {
   @HiveField(3)
   DateTime created;
 
+  @HiveField(4)
+  String? note;
+
   Spending({
     this.amount = 0,
     this.currencySymbol = 'Rp',
     this.category,
     required this.created,
+    this.note,
   });
 }
