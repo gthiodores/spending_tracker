@@ -4,9 +4,9 @@ import 'package:material_3_testing/data/model/spending.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class SpendingLocalSourceBase {
-  Stream<List<Spending>> watchRecentSpending(int limit);
+  Stream<List<Spending>> watchRecentSpending({int? limit});
 
-  List<Spending> getSpendingInTimeRange(DateTimeRange timeRange);
+  Future<List<Spending>> getSpendingInTimeRange(DateTimeRange timeRange);
 }
 
 class SpendingLocalSource extends SpendingLocalSourceBase {
@@ -15,30 +15,43 @@ class SpendingLocalSource extends SpendingLocalSourceBase {
   SpendingLocalSource(this._box);
 
   @override
-  List<Spending> getSpendingInTimeRange(DateTimeRange timeRange) {
-    throw UnimplementedError('not yet implemented');
-    // return _box
-    //     .where((element) => element.created.isBefore(timeRange.end))
-    //     .where((element) => element.created.isAfter(timeRange.start))
-    //     .toList();
+  Future<List<Spending>> getSpendingInTimeRange(DateTimeRange timeRange) async {
+    final items = await _takeSpending();
+
+    return items
+        .where((element) =>
+            element.created.isBefore(timeRange.end) &&
+            element.created.isAfter(timeRange.start))
+        .toList();
   }
 
   @override
-  Stream<List<Spending>> watchRecentSpending(int limit) async* {
-    final initialData = await _takeLatestSpending(limit);
+  Stream<List<Spending>> watchRecentSpending({int? limit}) async* {
+    final initialData = await _takeSpending(limit: limit);
 
     yield* _box.watch().switchMap((event) async* {
-      final spending = await _takeLatestSpending(limit);
-      yield spending;
+      yield await _takeSpending(limit: limit);
     }).startWith(initialData);
   }
 
-  Future<List<Spending>> _takeLatestSpending(int limit) async {
-    final box = await Hive.openBox<Spending>('spending');
+  Future<List<Spending>> _takeSpending({int? limit}) async {
+    Iterable<dynamic> keys = _box.keys;
 
-    final values = box.values.take(limit).toList();
-    box.close();
+    if (limit != null) {
+      int count = keys.length - limit;
+      keys = keys.skip(count >= 0 ? count : 0);
+    }
 
-    return values.take(5).toList();
+    final List<Spending> items = [];
+
+    for (final key in keys) {
+      final value = await _box.get(key);
+
+      if (value == null) continue;
+
+      items.add(value);
+    }
+
+    return items;
   }
 }
