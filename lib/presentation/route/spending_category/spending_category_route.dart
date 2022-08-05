@@ -59,10 +59,10 @@ class SpendingCategoryRoute extends StatelessWidget {
                       final item = state.categories[index];
                       return SpendingCategoryItem(
                         item: item,
-                        itemKey: Key('${item.name}$index'),
+                        itemKey: Key(item.key.toString()),
                         onDismissed: () => context
                             .read<SpendingCategoryCubit>()
-                            .add(SpendingCategoryDelete(item.key)),
+                            .add(SpendingCategoryDelete(item)),
                         onTap: () => Navigator.pushNamed(
                           context,
                           routeEditCategory,

@@ -6,5 +6,5 @@ class GetCategories {
 
   const GetCategories(this._source);
 
-  Stream<List<Category>> execute() => _source.getCategories();
+  Stream<List<Category>> execute() => _source.watchCategories();
 }

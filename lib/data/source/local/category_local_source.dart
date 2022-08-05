@@ -3,7 +3,9 @@ import 'package:material_3_testing/data/model/category.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class CategoryLocalSourceBase {
-  Stream<List<Category>> getCategories();
+  Stream<List<Category>> watchCategories();
+
+  List<Category> getCategories();
 
   void writeCategory(Category category);
 
@@ -24,13 +26,26 @@ class CategoryLocalSource extends CategoryLocalSourceBase {
   }
 
   @override
-  Stream<List<Category>> getCategories() => _box
-      .watch()
-      .map((value) => _box.values.toList())
-      .startWith(_box.values.toList());
+  Stream<List<Category>> watchCategories() =>
+      _box.watch().map((value) => getCategories()).startWith(getCategories());
+
+  @override
+  List<Category> getCategories() => _box.values.toList();
 
   @override
   void updateCategory(dynamic key, String name) {
+    final time = (DateTime.now().toUtc().millisecondsSinceEpoch) ~/ 1000;
+    final hexTime = time.toRadixString(16);
+
+    print("updateTime: $hexTime");
+
+    final timeInSeconds = int.parse(hexTime, radix: 16);
+    final parsed = DateTime.fromMillisecondsSinceEpoch(
+      timeInSeconds * 1000,
+      isUtc: true,
+    );
+    print(parsed.toLocal().toString());
+
     final category = _box.get(key);
     category?.name = name;
     category?.save();

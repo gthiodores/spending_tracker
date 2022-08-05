@@ -38,7 +38,7 @@ class SpendingCategoryCubit
     });
 
     on<SpendingCategoryDelete>((event, emit) {
-      _deleteCategory.execute(event.category);
+      _deleteCategory.execute(event.category.key);
       emit(state.copyWith(
         previouslyDeleted: Category(
           name: event.category.name,
